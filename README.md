@@ -28,9 +28,13 @@ https://app.gleanfeed.com/api/mcp
 
 ## Install
 
-Install this folder as an Agent Skill in your agent. Most skill-compatible agents expect a folder containing `SKILL.md`.
+Install with the skills CLI:
 
-For local agents, clone this repo and place or symlink the folder into the agent's skills directory.
+```bash
+npx skills add MSW-Digital/github-prs-to-glean-changelog --skill github-prs-to-glean-changelog
+```
+
+Or clone this repo and place or symlink the folder into your agent's skills directory. Most skill-compatible agents expect a folder containing `SKILL.md`.
 
 ## Use
 
