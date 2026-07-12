@@ -1,26 +1,26 @@
-# GitHub PRs to Glean Feed Changelog
+# Glean Feed Agent Skills
 
-An Agent Skill that turns merged GitHub pull requests into Glean Feed changelog drafts.
+Optional Agent Skills for working with customer feedback, roadmap decisions, and product updates through the [Glean Feed MCP server](https://gleanfeed.com/docs/api/mcp).
 
-The skill uses your agent's GitHub tools to read PRs and the Glean Feed MCP server to create changelog drafts. Glean Feed does not connect to GitHub, store GitHub tokens, or run a background sync.
+The skills run inside your coding agent. Glean Feed does not receive repository credentials or read your codebase directly; your agent uses the repository and MCP connections you approve.
 
-## What it does
+## Included skills
 
-- Reads merged pull requests from a repo and date range.
-- Checks existing Glean Feed entries to avoid duplicate drafts.
-- Skips internal/noisy work.
-- Groups user-visible changes into logical changelog entries.
-- Shows the full proposed changelog text before writing.
-- Creates drafts in Glean Feed after approval.
-- Publishes only if you explicitly approve publishing after seeing the full text.
+| Skill | Use it to |
+| --- | --- |
+| `github-prs-to-glean-changelog` | Turn merged GitHub pull requests into reviewed Glean Feed changelog drafts. |
+| `evaluate-feature-request` | Judge a proposed feature using repository, feedback, and roadmap evidence. |
+| `triage-product-feedback` | Group feedback into themes, identify duplicate candidates, and recommend next actions. |
+
+The evaluation and triage skills are read-only. The changelog skill proposes exact copy before creating drafts and requires a separate explicit approval before publishing.
 
 ## Requirements
 
 - An agent that supports Agent Skills.
-- GitHub tools or GitHub MCP connected in that agent.
-- Glean Feed MCP connected with `changelog:read` and `changelog:write`.
+- Glean Feed connected over MCP to the target workspace.
+- A GitHub tool, GitHub MCP connection, or local repository access for workflows that inspect code.
 
-Glean Feed MCP endpoint:
+Connect Glean Feed at:
 
 ```text
 https://app.gleanfeed.com/api/mcp
@@ -28,27 +28,42 @@ https://app.gleanfeed.com/api/mcp
 
 ## Install
 
-Install with the skills CLI:
+Choose skills interactively:
+
+```bash
+npx skills add MSW-Digital/github-prs-to-glean-changelog
+```
+
+Or install one directly:
 
 ```bash
 npx skills add MSW-Digital/github-prs-to-glean-changelog --skill github-prs-to-glean-changelog
+npx skills add MSW-Digital/github-prs-to-glean-changelog --skill evaluate-feature-request
+npx skills add MSW-Digital/github-prs-to-glean-changelog --skill triage-product-feedback
 ```
 
-Or clone this repo and place or symlink the folder into your agent's skills directory. Most skill-compatible agents expect a folder containing `SKILL.md`.
+Review the requested Glean Feed scopes before authorizing the MCP connection. Start with read scopes and add the specific write scope only when a workflow needs it.
 
-## Use
-
-Example:
+## Example requests
 
 ```text
-Use github-prs-to-glean-changelog.
+Review merged PRs since our last release and propose customer-facing Glean Feed changelog drafts. Show me the exact copy before creating anything.
+```
 
-Review merged PRs in MSW-Digital/my-app since the last published Glean Feed changelog entry. Group customer-visible changes into logical changelog entries. Show me the full proposed text before creating drafts. Do not publish unless I explicitly approve publishing.
+```text
+Evaluate whether this feature request is worth pursuing. Compare it with our repository, related Glean Feed feedback, and existing roadmap work.
+```
+
+```text
+Triage the 50 most recent Glean Feed requests. Group them by customer problem, identify high-confidence duplicates, and recommend the next action for each request. Do not change anything.
 ```
 
 ## Safety
 
-The skill is draft-first. It treats "looks good" as approval to create drafts only. Publishing requires explicit publish intent, such as "publish all" or "publish entry 1", after the full text is shown in chat.
+- Analysis works with read-only Glean Feed scopes.
+- Changelog entries are created as drafts after review.
+- Publishing requires explicit approval after the stored draft is shown.
+- Feedback merges, stage changes, replies, and roadmap writes stay outside the read-only evaluation and triage skills.
 
 ## License
 

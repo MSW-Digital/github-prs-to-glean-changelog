@@ -1,0 +1,4 @@
+interface:
+  display_name: "Triage Product Feedback"
+  short_description: "Find themes, duplicates, and next actions in feedback."
+  default_prompt: "Triage recent Glean Feed requests into themes, likely duplicates, and recommended next actions without changing workspace data."

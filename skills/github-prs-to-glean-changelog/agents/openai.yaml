@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub PRs to Glean Changelog"
+  short_description: "Draft Glean updates from merged pull requests."
+  default_prompt: "Review merged GitHub pull requests and propose Glean Feed changelog drafts for the customer-visible outcomes."

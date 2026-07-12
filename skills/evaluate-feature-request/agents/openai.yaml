@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evaluate Feature Request"
+  short_description: "Judge a request using customer and code evidence."
+  default_prompt: "Evaluate this feature request against the repository, Glean Feed feedback, and current roadmap, then recommend the next decision."
